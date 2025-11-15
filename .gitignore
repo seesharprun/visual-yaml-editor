@@ -1,0 +1,9 @@
+out
+dist
+node_modules
+.vscode-test-web/
+*.vsix
+.env
+
+# Generated validator
+src/web/app/validator.generated.js

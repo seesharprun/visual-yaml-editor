@@ -1,0 +1,219 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MongoDB Query Language Reference",
+  "type": "object",
+  "required": [
+    "type",
+    "category",
+    "name"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "operator",
+        "command"
+      ],
+      "description": "Specifies whether the reference describes a query operator (such as $regex) or a database command (such as count). This helps categorize the reference for documentation and usage purposes."
+    },
+    "category": {
+      "type": "string",
+      "description": "The category of the operator or command, such as query, aggregation, update, etc. This helps organize the reference within the broader context of MongoDB functionalities."
+    },
+    "name": {
+      "type": "string",
+      "description": "The official name of the operator or command. This should match the name used in MongoDB queries, such as $regex or count."
+    },
+    "description": {
+      "type": "string",
+      "description": "A detailed explanation of the operator or command, including its purpose, typical use cases, and any important nuances. This should help users understand when and why to use it."
+    },
+    "summary": {
+      "type": "string",
+      "description": "A concise, one- or two-sentence summary of the operator or command. This is used for quick reference and in listings or previews."
+    },
+    "syntax": {
+      "type": "string",
+      "description": "The canonical syntax for using the operator or command in a MongoDB query. This should include example structure and required fields, helping users understand how to construct valid queries."
+    },
+    "parameters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "required"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the parameter as used in the query or command."
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "object",
+              "string",
+              "number",
+              "pattern",
+              "array",
+              "expression"
+            ],
+            "description": "The data type of the parameter, such as string, object, number, or pattern. This helps validate and document expected input."
+          },
+          "required": {
+            "type": "boolean",
+            "description": "Indicates whether this parameter is mandatory for the operator or command to function correctly."
+          },
+          "description": {
+            "type": "string",
+            "description": "A detailed description of the parameter, including its role, expected values, and any special considerations."
+          }
+        },
+        "additionalProperties": false
+      },
+      "description": "A list of parameters accepted by the operator or command. Each parameter includes its name, type, whether it is required, and a description to guide correct usage."
+    },
+    "examples": {
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "sample": {
+          "type": "string",
+          "description": "A sample dataset or document structure that is used in the example queries. This helps users understand the context and expected input/output."
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "title",
+              "description",
+              "query"
+            ],
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "A short, descriptive title for the example, summarizing what it demonstrates."
+              },
+              "explanation": {
+                "type": "string",
+                "description": "A step-by-step explanation of how the example works and why it is useful."
+              },
+              "description": {
+                "type": "string",
+                "description": "A brief description of the example, including its purpose and what it illustrates about the operator or command."
+              },
+              "query": {
+                "type": "string",
+                "description": "The actual MongoDB query or command used in the example. This should be copy-pasteable and demonstrate correct usage."
+              },
+              "output": {
+                "type": "object",
+                "required": [
+                  "value"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "description": "The output produced by the query or command, shown in the specified format."
+                  }
+                },
+                "additionalProperties": false,
+                "description": "The expected output of the example query, including its format and value."
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false,
+      "description": "A set of practical examples demonstrating how to use the operator or command. Each example includes a sample dataset, query, output, and explanations to help users understand real-world usage."
+    },
+    "related": {
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": [
+          "reference"
+        ],
+        "properties": {
+          "reference": {
+            "type": "string",
+            "description": "A reference to a related operator or command, typically as a path or identifier. This helps users discover additional relevant documentation."
+          }
+        },
+        "additionalProperties": false
+      },
+      "description": "A list of up to four related operators or commands, providing links to additional documentation for further exploration."
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "operator"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "category": {
+            "enum": [
+              "accumulator",
+              "aggregation",
+              "arithmetic-expression",
+              "array-expression",
+              "array-query",
+              "array-update",
+              "bitwise",
+              "bitwise-query",
+              "bitwise-update",
+              "boolean-expression",
+              "comparison-query",
+              "conditional-expression",
+              "date-expression",
+              "data-size",
+              "element-query",
+              "evaluation-query",
+              "field-update",
+              "geospatial",
+              "logical-query",
+              "miscellaneous",
+              "object-expression",
+              "projection",
+              "timestamp-expression",
+              "set-expression",
+              "variable-expression",
+              "window"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "command"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "category": {
+            "enum": [
+              "aggregation",
+              "query-and-write"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
