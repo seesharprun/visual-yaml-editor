@@ -2,13 +2,11 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Run Web Extension",
+			"name": "Run Extension",
 			"type": "extensionHost",
-			"debugWebWorkerHost": true,
 			"request": "launch",
 			"args": [
-				"--extensionDevelopmentPath=${workspaceFolder}",
-				"--extensionDevelopmentKind=web"
+				"--extensionDevelopmentPath=${workspaceFolder}"
 			],
 			"outFiles": [
 				"${workspaceFolder}/dist/web/**/*.js"
