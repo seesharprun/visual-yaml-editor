@@ -3,15 +3,13 @@ import * as yaml from 'js-yaml';
 import type { YamlData, Message } from './types';
 import { validateYamlSchema } from './validation';
 import { useDocumentUpdate } from './hooks/useDocumentUpdate';
-import {
-	ErrorBanner,
-	EditableBreadcrumbs,
-	HeaderSection,
-	SyntaxSection,
-	ParametersSection,
-	ExamplesSection,
-	RelatedSection
-} from './components';
+import { ErrorBanner } from './components/ErrorBanner';
+import { EditableBreadcrumbs } from './components/EditableBreadcrumbs';
+import { HeaderSection } from './components/HeaderSection';
+import { SyntaxSection } from './components/SyntaxSection';
+import { ParametersSection } from './components/ParametersSection';
+import { ExamplesSection } from './components/ExamplesSection';
+import { RelatedSection } from './components/RelatedSection';
 import '../styles.css';
 
 declare const acquireVsCodeApi: () => {
@@ -33,12 +31,12 @@ export const App: React.FC = () => {
 	});
 	const [hasReceivedData, setHasReceivedData] = useState(false);
 	const [yamlError, setYamlError] = useState<string | null>(null);
-	
+
 	// Editing states for breadcrumbs
 	const [editingType, setEditingType] = useState(false);
 	const [editingCategory, setEditingCategory] = useState(false);
-	
-	const { updateDocument, debouncedUpdateDocument, flushUpdates, cleanup } = 
+
+	const { updateDocument, debouncedUpdateDocument, flushUpdates, cleanup } =
 		useDocumentUpdate(vscode, data, setData);
 
 	useEffect(() => {
@@ -51,18 +49,18 @@ export const App: React.FC = () => {
 					if (message.text) {
 						try {
 							const parsed = yaml.load(message.text) as YamlData;
-							const newData = parsed || { 
-								type: 'command' as const, 
-								category: '', 
-								name: '', 
-								parameters: [], 
-								examples: { items: [] }, 
-								related: [] 
+							const newData = parsed || {
+								type: 'command' as const,
+								category: '',
+								name: '',
+								parameters: [],
+								examples: { items: [] },
+								related: []
 							};
-							
+
 							if (typeof newData === 'object' && newData !== null) {
 								const validation = validateYamlSchema(newData);
-								
+
 								if (!validation.valid) {
 									console.warn('Schema validation failed:', validation.error);
 									setYamlError(`Schema validation error: ${validation.error}`);
@@ -101,12 +99,12 @@ export const App: React.FC = () => {
 			{yamlError && (
 				<ErrorBanner error={yamlError} onDismiss={() => setYamlError(null)} />
 			)}
-			
+
 			{/* Overlay when YAML is invalid */}
 			{yamlError && hasReceivedData && (
 				<div className="fixed inset-0 bg-neutral-900/60 backdrop-blur-[2px] z-40 pointer-events-none" />
 			)}
-			
+
 			{/* Main content */}
 			<div className={yamlError && hasReceivedData ? 'opacity-50 pointer-events-none select-none' : ''}>
 				<article className="flex-1 p-8">

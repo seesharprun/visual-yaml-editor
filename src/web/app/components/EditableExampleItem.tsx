@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import type { ExampleItem } from '../types';
 import { CodeBlock } from './CodeBlock';
 import { EditIcon, DeleteIcon, SaveIcon, CancelIcon, AddIcon } from './Icons';
-import { slugify } from '../utils';
 
 interface EditableExampleItemProps {
 	example: ExampleItem;
@@ -10,6 +9,10 @@ interface EditableExampleItemProps {
 	onUpdate: (updated: ExampleItem) => void;
 	onDelete: () => void;
 }
+
+const slugify = (text: string) => {
+	return text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+};
 
 export const EditableExampleItem: React.FC<EditableExampleItemProps> = ({
 	example,
