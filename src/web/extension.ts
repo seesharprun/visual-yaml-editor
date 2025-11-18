@@ -2,19 +2,7 @@ import {
 	chat,
 	ChatParticipant,
 	ExtensionContext,
-	Uri,
-  ChatRequestHandler,
-  ChatRequest,
-  ChatContext,
-  ChatResponseStream,
-  CancellationToken,
-  ChatResult,
-  LanguageModelChatMessage,
-  LanguageModelChatResponse,
-  l10n,
-  LanguageModelError,
-  TelemetryLogger,
-  env
+	Uri
 } from 'vscode';
 
 import { YamlEditorProvider } from './app/services/Provider';
@@ -34,39 +22,9 @@ export function activate(context: ExtensionContext) {
 
 	{ // Register the chat participant
 
-		const handler: ChatRequestHandler = async (
-			request: ChatRequest,
-			context: ChatContext,
-			stream: ChatResponseStream,
-			token: CancellationToken
-		) => {
-
-			// Greet user
-			stream.progress('Starting...');
-			stream.markdown('Hello from MQL YAML!');
-
-			// Generic prompt
-			/*const prompt: string = 'You are a helpful math tutor. Your job is to answer math questions and provide a brief visual explanation of how you calculated the answer.';
-
-			const messages: LanguageModelChatMessage[] = [
-				LanguageModelChatMessage.User(prompt),
-				LanguageModelChatMessage.User(request.prompt)
-			];
-
-			const response: LanguageModelChatResponse = await request.model.sendRequest(messages, {}, token);
-
-			for await (const fragment of response.text) {
-				stream.markdown(fragment);
-			}*/
-
-			return;
-		};
-
-		const participant: ChatParticipant = chat.createChatParticipant('documentdb-mql-reference-editor.chat-participant', handler);
+		const participant: ChatParticipant = chat.createChatParticipant('documentdb-mql-reference-editor.chat-participant', ChatHandler);
 
 		participant.iconPath = Uri.joinPath(context.extensionUri, 'assets', 'icon.png');
-
-		context.subscriptions.push(participant);
 	}
 }
 
