@@ -1,5 +1,6 @@
 import React from 'react';
 import type { YamlData } from '../types';
+import { ChatIcon } from './Icons';
 
 interface EditableBreadcrumbsProps {
 	data: YamlData;
@@ -9,6 +10,7 @@ interface EditableBreadcrumbsProps {
 	setEditingCategory: (editing: boolean) => void;
 	onUpdate: (data: YamlData) => void;
 	onFlush: () => void;
+	vscode: any;
 }
 
 const OPERATOR_CATEGORIES = [
@@ -49,10 +51,16 @@ export const EditableBreadcrumbs: React.FC<EditableBreadcrumbsProps> = ({
 	setEditingType,
 	setEditingCategory,
 	onUpdate,
-	onFlush
+	onFlush,
+	vscode
 }) => {
+	const handleOpenChat = () => {
+		vscode.postMessage({ type: 'openChat' });
+	};
+
 	return (
-		<nav className="mb-6 text-sm text-gray-400 flex items-center gap-2">
+		<div className="mb-6 flex items-center justify-between gap-4">
+			<nav className="text-sm text-gray-400 flex items-center gap-2">
 			<span className="hover:text-blue-400 transition-colors">Reference</span>
 			<span>/</span>
 			
@@ -116,8 +124,17 @@ export const EditableBreadcrumbs: React.FC<EditableBreadcrumbsProps> = ({
 					{data.category}
 				</span>
 			)}
-			<span>/</span>
-			<span className="text-white">{data.name}</span>
-		</nav>
+				<span>/</span>
+				<span className="text-white">{data.name}</span>
+			</nav>
+			<button
+				onClick={handleOpenChat}
+				className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-300 bg-blue-600 hover:bg-blue-700 rounded transition-colors"
+				title="Open Copilot Chat"
+			>
+				<ChatIcon className="w-4 h-4" />
+				Ask Copilot
+			</button>
+		</div>
 	);
 };

@@ -120,6 +120,7 @@ export const App: React.FC = () => {
 								setEditingCategory={setEditingCategory}
 								onUpdate={debouncedUpdateDocument}
 								onFlush={flushUpdates}
+								vscode={vscode}
 							/>
 
 							<HeaderSection

@@ -4,7 +4,7 @@ export { ErrorBanner } from './ErrorBanner';
 export { ExampleCard } from './ExampleCard';
 export { ParameterCard } from './ParameterCard';
 export { RelatedSection } from './RelatedSection';
-export { EditIcon, DeleteIcon, AddIcon, SaveIcon, CancelIcon } from './Icons';
+export { EditIcon, DeleteIcon, AddIcon, SaveIcon, CancelIcon, ChatIcon } from './Icons';
 export { OptionalField } from './OptionalField';
 export { EditableExampleItem } from './EditableExampleItem';
 export { EditableBreadcrumbs } from './EditableBreadcrumbs';

@@ -49,8 +49,65 @@
         "id": "documentdb-mql-reference-editor.chat-participant",
         "name": "mqlyml",
         "fullName": "MQL YAML Assistant",
-        "description": "How can I help with your YAML",
-        "isSticky": true
+        "description": "Help with MongoDB Query Language YAML documentation",
+        "isSticky": false,
+        "commands": [
+          {
+            "name": "new",
+            "description": "Generate a new MQL YAML reference document from scratch"
+          },
+          {
+            "name": "fix",
+            "description": "Fix YAML syntax or validation issues in the current file"
+          },
+          {
+            "name": "edit",
+            "description": "Copy edit YAML content using documentation best practices"
+          }
+        ],
+        "disambiguation": [
+          {
+            "category": "validation",
+            "description": "The user wants to validate their MQL YAML file or check if it conforms to the schema requirements.",
+            "examples": [
+              "Is my YAML valid?",
+              "Check if this file is correct",
+              "Does my YAML have any errors?",
+              "Validate my MQL YAML"
+            ]
+          },
+          {
+            "category": "generation",
+            "description": "The user wants to create a new MQL reference document or generate examples for MongoDB operators or commands.",
+            "examples": [
+              "Create a new reference for the $regex operator",
+              "Generate a YAML file for the count command",
+              "Help me document the $match operator",
+              "I need a reference for $group"
+            ]
+          },
+          {
+            "category": "editing",
+            "description": "The user wants to improve, enhance, or fill out specific fields in their existing MQL YAML documentation.",
+            "examples": [
+              "Add more examples to my YAML",
+              "Fill out the description field",
+              "Improve my documentation",
+              "Can you add better examples?",
+              "Enhance the parameters section"
+            ]
+          },
+          {
+            "category": "troubleshooting",
+            "description": "The user needs help fixing errors, syntax issues, or validation problems in their MQL YAML file.",
+            "examples": [
+              "How do I fix these validation errors?",
+              "My YAML won't parse correctly",
+              "Fix the syntax in my file",
+              "There's an error in my YAML"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -94,6 +151,7 @@
     "webpack-cli": "^6.0.1"
   },
   "dependencies": {
+    "@vscode/codicons": "^0.0.42",
     "@typespec/compiler": "^1.6.0",
     "ajv": "^8.17.1",
     "react-syntax-highlighter": "^16.1.0"

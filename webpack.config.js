@@ -11,6 +11,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 /** @type WebpackConfig */
 const webExtensionConfig = {
@@ -97,6 +98,14 @@ const webviewConfig = {
 		new webpack.ProvidePlugin({
 			process: 'process/browser',
 		}),
+		new CopyWebpackPlugin({
+			patterns: [
+				{
+					from: 'node_modules/@vscode/codicons/dist',
+					to: '../node_modules/@vscode/codicons/dist'
+				}
+			]
+		})
 	],
 	performance: {
 		hints: false

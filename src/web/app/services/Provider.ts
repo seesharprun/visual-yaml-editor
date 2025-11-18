@@ -81,6 +81,10 @@ export class YamlEditorProvider implements vscode.CustomTextEditorProvider {
 				case 'update':
 					this.updateTextDocument(document, e.content);
 					return;
+				case 'openChat':
+					// Open Copilot chat with the mqlyml participant
+					vscode.commands.executeCommand('workbench.action.chat.open', '@mqlyml ');
+					return;
 			}
 		});
 	}
@@ -93,6 +97,10 @@ export class YamlEditorProvider implements vscode.CustomTextEditorProvider {
 		const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(
 			this.context.extensionUri, 'dist', 'web', 'webview.js'));
 
+		// Codicon font URI - using VS Code's built-in codicon font
+		const codiconsUri = webview.asWebviewUri(vscode.Uri.joinPath(
+			this.context.extensionUri, 'node_modules', '@vscode/codicons', 'dist', 'codicon.css'));
+
 		// Use a nonce to whitelist which scripts can be run
 		const nonce = getNonce();
 
@@ -103,9 +111,11 @@ export class YamlEditorProvider implements vscode.CustomTextEditorProvider {
 				<meta charset="UTF-8">
 				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; 
 					img-src ${webview.cspSource} https:; 
+					font-src ${webview.cspSource};
 					script-src 'nonce-${nonce}'; 
 					style-src ${webview.cspSource} 'unsafe-inline';">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<link href="${codiconsUri}" rel="stylesheet" />
 				<title>YAML Visual Editor</title>
 				<style>
 					body {
