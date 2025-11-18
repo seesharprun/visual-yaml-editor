@@ -2,19 +2,7 @@ import {
 	chat,
 	ChatParticipant,
 	ExtensionContext,
-	Uri,
-  ChatRequestHandler,
-  ChatRequest,
-  ChatContext,
-  ChatResponseStream,
-  CancellationToken,
-  ChatResult,
-  LanguageModelChatMessage,
-  LanguageModelChatResponse,
-  l10n,
-  LanguageModelError,
-  TelemetryLogger,
-  env
+	Uri
 } from 'vscode';
 
 import { YamlEditorProvider } from './app/services/Provider';
