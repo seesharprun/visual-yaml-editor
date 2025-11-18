@@ -22,29 +22,13 @@ export const ChatHandler: ChatRequestHandler = async (
   context: ChatContext,
   stream: ChatResponseStream,
   token: CancellationToken
-) => {
+): Promise<IExtendedChatResult> => {
 
   // Greet user
   stream.progress('Starting...');
   stream.markdown('Hello from MQL YAML!');
+  stream.markdown('---');
 
-  // Generic prompt
-  const prompt: string = 'You are a helpful math tutor. Your job is to answer math questions and provide a brief visual explanation of how you calculated the answer.';
-
-  const messages: LanguageModelChatMessage[] = [
-    LanguageModelChatMessage.User(prompt),
-    LanguageModelChatMessage.User(request.prompt)
-  ];
-
-  const response: LanguageModelChatResponse = await request.model.sendRequest(messages, {}, token);
-
-  for await (const fragment of response.text) {
-    stream.markdown(fragment);
-  }
-
-  return;
-
-  /*
   try {
     // Generate random single digit numbers
     const left: number = Math.floor(Math.random() * 9) + 1;
@@ -81,7 +65,6 @@ export const ChatHandler: ChatRequestHandler = async (
 
   // Return metadata about the command executed
   return { metadata: { command: 'generic-use' } };
-  */
 };
 
 // Extended chat result interface to include metadata
@@ -90,6 +73,19 @@ interface IExtendedChatResult extends ChatResult {
     command: string;
   }
 }
+
+const logger = env.createTelemetryLogger({
+  sendEventData(eventName, data) {
+    // Capture event telemetry
+    console.log(`Event: ${eventName}`);
+    console.log(`Data: ${JSON.stringify(data)}`);
+  },
+  sendErrorData(error, data) {
+    // Capture error telemetry
+    console.error(`Error: ${error}`);
+    console.error(`Data: ${JSON.stringify(data)}`);
+  }
+});
 
 // making the chat request might fail because
 // - model does not exist
