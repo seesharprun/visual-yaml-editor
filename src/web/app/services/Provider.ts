@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
 import * as yaml from 'js-yaml';
-import { getNonce } from './util';
 
 /**
  * Provider for YAML visual editors.
@@ -148,4 +147,13 @@ export class YamlEditorProvider implements vscode.CustomTextEditorProvider {
 
 		return vscode.workspace.applyEdit(edit);
 	}
+}
+
+function getNonce(): string {
+	let text = '';
+	const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	for (let i = 0; i < 32; i++) {
+		text += possible.charAt(Math.floor(Math.random() * possible.length));
+	}
+	return text;
 }

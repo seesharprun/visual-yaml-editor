@@ -16,12 +16,9 @@ const webpack = require('webpack');
 const webExtensionConfig = {
 	mode: 'none', // this leaves the source code as close as possible to the original (when packaging we set this to 'production')
 	target: 'webworker', // extensions run in a webworker context
-	entry: {
-		'extension': './src/web/extension.ts',
-		'test/suite/index': './src/web/test/suite/index.ts'
-	},
+	entry: './src/web/extension.ts',
 	output: {
-		filename: '[name].js',
+		filename: 'extension.js',
 		path: path.join(__dirname, './dist/web'),
 		libraryTarget: 'commonjs',
 		devtoolModuleFilenameTemplate: '../../[resource-path]'
@@ -62,12 +59,6 @@ const webExtensionConfig = {
 	performance: {
 		hints: false
 	},
-	ignoreWarnings: [
-		{
-			module: /node_modules\/mocha\/mocha\.js/,
-			message: /the request of a dependency is an expression/,
-		}
-	],
 	devtool: 'nosources-source-map', // create a source map that points to the original source file
 	infrastructureLogging: {
 		level: "log", // enables logging required for problem matchers
@@ -123,4 +114,4 @@ const webviewConfig = {
 	devtool: 'nosources-source-map',
 };
 
-module.exports = [ webExtensionConfig, webviewConfig ];
+module.exports = [webExtensionConfig, webviewConfig];

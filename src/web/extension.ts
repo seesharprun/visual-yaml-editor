@@ -1,31 +1,73 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
-import { YamlEditorProvider } from './provider';
+import {
+	chat,
+	ChatParticipant,
+	ExtensionContext,
+	Uri,
+  ChatRequestHandler,
+  ChatRequest,
+  ChatContext,
+  ChatResponseStream,
+  CancellationToken,
+  ChatResult,
+  LanguageModelChatMessage,
+  LanguageModelChatResponse,
+  l10n,
+  LanguageModelError,
+  TelemetryLogger,
+  env
+} from 'vscode';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
+import { YamlEditorProvider } from './app/services/Provider';
+import { ChatHandler } from './app/services/Chat';
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('YAML Visual Editor extension is now active!');
+// Activate the extension and register any providers or participants
+export function activate(context: ExtensionContext) {
 
-	// Register the custom editor provider for YAML files
-	context.subscriptions.push(YamlEditorProvider.register(context));
+	console.log('DocumentDB - MongoDB Query Language (MQL) Reference extension is now active!');
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('documentdbmqlreferenceeditor.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
+	{ // Register the custom editor provider for YAML files
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from YAML Visual Editor!');
-	});
+		const disposable = YamlEditorProvider.register(context);
 
-	context.subscriptions.push(disposable);
+		context.subscriptions.push(disposable);
+	}
+
+	{ // Register the chat participant
+
+		const handler: ChatRequestHandler = async (
+			request: ChatRequest,
+			context: ChatContext,
+			stream: ChatResponseStream,
+			token: CancellationToken
+		) => {
+
+			// Greet user
+			stream.progress('Starting...');
+			stream.markdown('Hello from MQL YAML!');
+
+			// Generic prompt
+			/*const prompt: string = 'You are a helpful math tutor. Your job is to answer math questions and provide a brief visual explanation of how you calculated the answer.';
+
+			const messages: LanguageModelChatMessage[] = [
+				LanguageModelChatMessage.User(prompt),
+				LanguageModelChatMessage.User(request.prompt)
+			];
+
+			const response: LanguageModelChatResponse = await request.model.sendRequest(messages, {}, token);
+
+			for await (const fragment of response.text) {
+				stream.markdown(fragment);
+			}*/
+
+			return;
+		};
+
+		const participant: ChatParticipant = chat.createChatParticipant('documentdb-mql-reference-editor.chat-participant', handler);
+
+		participant.iconPath = Uri.joinPath(context.extensionUri, 'assets', 'icon.png');
+
+		context.subscriptions.push(participant);
+	}
 }
 
-// This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }

@@ -1,5 +1,5 @@
 {
-  "name": "documentdbmqlreferenceeditor",
+  "name": "documentdb-mql-reference-editor",
   "displayName": "DocumentDB - MongoDB Query Language (MQL) Reference",
   "description": "This Visual Studio Code extension provides a powerful dual-editing experience for MongoDB Query Language (MQL) reference documentation stored in YAML format. Designed specifically for maintaining and editing structured reference content, it offers both a rich visual interface and traditional YAML text editing.",
   "version": "0.0.1",
@@ -8,6 +8,9 @@
     "vscode": "^1.106.0"
   },
   "categories": [
+    "AI",
+    "Chat",
+    "Visualization",
     "Other"
   ],
   "activationEvents": [],
@@ -40,10 +43,18 @@
           "**/*.{mql,dql}.{yml,yaml}"
         ]
       }
-    }
+    },
+    "chatParticipants": [
+      {
+        "id": "documentdb-mql-reference-editor.chat-participant",
+        "name": "mqlyml",
+        "fullName": "MQL YAML Assistant",
+        "description": "How can I help with your YAML",
+        "isSticky": true
+      }
+    ]
   },
   "scripts": {
-    "test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/index.js",
     "pretest": "npm run compile-web",
     "vscode:prepublish": "npm run package-web",
     "compile-web": "node scripts/generate-validator.js && webpack",
@@ -62,7 +73,6 @@
     "@types/react-syntax-highlighter": "^15.5.13",
     "@types/vscode": "^1.106.0",
     "@types/webpack-env": "^1.18.8",
-    "@vscode/test-web": "^0.0.75",
     "assert": "^2.1.0",
     "copy-webpack-plugin": "^13.0.1",
     "css-loader": "^7.1.2",
@@ -84,6 +94,7 @@
     "webpack-cli": "^6.0.1"
   },
   "dependencies": {
+    "@typespec/compiler": "^1.6.0",
     "ajv": "^8.17.1",
     "react-syntax-highlighter": "^16.1.0"
   }
